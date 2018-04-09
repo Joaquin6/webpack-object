@@ -1,0 +1,22 @@
+{
+  "name": "webpack-object",
+  "version": "0.1.0",
+  "description": "adapt webpack configuration object into any webpack version",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joaquin6/webpack-object.git"
+  },
+  "keywords": [
+    "webpack"
+  ],
+  "author": "Joaquin Briceno",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joaquin6/webpack-object/issues"
+  },
+  "homepage": "https://github.com/Joaquin6/webpack-object#readme"
+}
