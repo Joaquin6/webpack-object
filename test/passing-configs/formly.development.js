@@ -4,6 +4,7 @@ import here from 'path-here'
 import webpack from 'webpack'
 import { filter, merge } from 'lodash'
 import WebpackNotifierPlugin from 'webpack-notifier'
+import DirectoryNamedWebpackPlugin from 'directory-named-webpack-plugin'
 
 const packageJson = {
   name: 'formly',
@@ -33,10 +34,10 @@ const getHtmlLoader = () => ({
 });
 
 const getCommonPlugins = () => (filter([
-  new webpack.BannerPlugin('string stuff'),
+  new webpack.BannerPlugin({banner: 'string stuff', raw: true, entryOnly: true}),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    VERSION: JSON.stringify(packageJson.version)
+    'process.env.VERSION': JSON.stringify(packageJson.version)
   }),
   process.env.CI ? undefined : new WebpackNotifierPlugin({
     title: 'angular-formly',
@@ -58,7 +59,7 @@ const getDevConfig = () => ({
 });
 
 const getCommonConfig = () => ({
-  context: process.cwd(),
+  context: 'exists',
   entry: './configs.js',
   output: {
     libraryTarget: 'umd',
@@ -69,6 +70,7 @@ const getCommonConfig = () => ({
     reasons: true
   },
   resolve: {
+    plugins: [new DirectoryNamedWebpackPlugin()],
     extensions: ['.js'],
     alias: {
       'angular-fix': here('src/angular-fix')

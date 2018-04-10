@@ -4,6 +4,7 @@ import path from 'path'
 
 // Webpack Plugins
 import { DefinePlugin, ProvidePlugin } from 'webpack'
+import DirectoryNamedWebpackPlugin from 'directory-named-webpack-plugin'
 
 const { NODE_ENV: ENV = 'test' } = process.env;
 
@@ -21,12 +22,13 @@ function prepend(extensions, args = []) {
     args = [args]
   }
   return extensions.reduce((memo, val) =>
-    memo.concat(val, args.map(prefix => prefix + val)), ['']);
+    memo.concat(val, args.map(prefix => prefix + val)), []);
 }
 
 
 export default {
   resolve: {
+    plugins: [new DirectoryNamedWebpackPlugin()],
     // cache: false,
     extensions: prepend(['.ts','.js','.json','.css','.html'], '.async') // ensure .async.ts etc also works
   },

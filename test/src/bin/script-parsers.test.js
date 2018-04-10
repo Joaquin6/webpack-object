@@ -1,4 +1,4 @@
-import { webpackConfig, nodeEnv } from './script-parsers'
+import { webpackConfig, nodeEnv } from '../../../src/bin/script-parsers'
 
 describe('webpack config name parser', () => {
   it('should parse --config', () => {

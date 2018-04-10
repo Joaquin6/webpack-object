@@ -1,6 +1,6 @@
 import util from 'util'
 import chalk from 'chalk'
-import validate from '../../src/schemas'
+import validate, { validateRoot, Joi } from '../../src/schemas'
 
 /**
  * For all supplied configs (array of objects), check that they are invalid given a schema.
@@ -28,24 +28,28 @@ export default (configs, schema) => {
       })
 
       assert(result.error)
-      const { error } = result
+      const { error: { details } } = result
 
-      if (throwError) {
-        throw error
-      }
+      console.log(details[0], '\n\n');
+      console.log(expectedError);
 
-      assert(error)
+      // if (throwError) {
+      //   throw error
+      // }
+
+      assert(details[0])
+
       if (expectedError) {
         if (expectedError.path) {
-          assert(error.details[0].path === expectedError.path)
+          assert(details[0].path === expectedError.path)
         }
 
         if (expectedError.type) {
-          assert(error.details[0].type === expectedError.type)
+          assert(details[0].type === expectedError.type)
         }
 
         if (expectedError.message) {
-          assert(error.details[0].message === expectedError.message)
+          assert(details[0].message === expectedError.message)
         }
       }
     })

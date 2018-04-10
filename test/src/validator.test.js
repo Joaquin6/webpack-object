@@ -1,4 +1,4 @@
-import { validateOutputVersion } from './validator';
+import { validateOutputVersion } from '../../src/validator';
 
 describe('validator', () => {
   it('should validate an existent webpack version', () => {

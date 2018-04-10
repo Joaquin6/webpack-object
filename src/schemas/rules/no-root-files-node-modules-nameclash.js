@@ -1,11 +1,11 @@
 import Joi from 'joi'
 import { ls } from 'shelljs'
-import _memoize from 'lodash/memoize'
+import { memoize } from 'lodash'
 import basename from 'basename'
 import findNodeModules from 'find-node-modules'
 
 // It's not super clean to mock this here, but i'm ok with this for now
-const getNodeModulesContents = _memoize((dir) => { // eslint-disable-line arrow-body-style
+const getNodeModulesContents = memoize((dir) => { // eslint-disable-line arrow-body-style
   /* istanbul ignore next */
   return process.env.NODE_ENV === 'test'
     ? ['codecov', 'babel-cli']
@@ -17,9 +17,9 @@ const getNodeModulesContents = _memoize((dir) => { // eslint-disable-line arrow-
  */
 const calculateIntersection = (set1, set2) => new Set([...set1].filter(x => set2.has(x)))
 
-const basenameCached = _memoize(basename)
+const basenameCached = memoize(basename)
 
-const cachedBasenameLs = _memoize((dir) => {
+const cachedBasenameLs = memoize((dir) => {
   // TODO: Refactor this to use webpacks `modulesDirectories` somehow
   const files = ls(`${dir}/*{.json,.js,.jsx,.ts}`)
   const folders = ls('-d', `${dir}/*/`)

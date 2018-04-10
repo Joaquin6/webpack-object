@@ -8,6 +8,7 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
+const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
 
 const lessModuleLoader = (prod) => {
   const useLoaders = [{ loader: 'style-loader' }];
@@ -27,10 +28,7 @@ const lessModuleLoader = (prod) => {
     useLoaders.push({
       loader: 'css-loader',
       options: {
-        modules: true,
         localIdentName: '[name]__[local]___[hash:base64:5]',
-        postcss: true,
-        less: true,
       }
     });
   }
@@ -43,6 +41,7 @@ const lessModuleLoader = (prod) => {
 
 export const makeConfig = ({production}) => ({
   resolve: {
+    plugins: [new DirectoryNamedWebpackPlugin()],
     extensions: ['.js', '.jsx'],
     modules: ['node_modules', 'src'],
   },

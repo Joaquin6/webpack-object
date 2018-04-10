@@ -1,5 +1,5 @@
-import schema from './index'
-import { allValid } from '../../../../test/utils'
+import schema from '../../../../../src/schemas/properties/performance'
+import { allValid } from '../../../../utils'
 
 const validPerformanceConfigs = [
   { input: { hints: true } },

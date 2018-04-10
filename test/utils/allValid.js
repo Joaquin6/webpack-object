@@ -1,6 +1,6 @@
 import util from 'util'
 import chalk from 'chalk'
-import validate from '../../src/schemas/index.js'
+import validate, { validateRoot, Joi } from '../../src/schemas'
 
 /**
  * For all supplied configs (array of objects), check that they are valid given a schema.

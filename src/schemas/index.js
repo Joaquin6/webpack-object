@@ -39,6 +39,7 @@ export const makeSchema = (schemaOptions, schemaExtension) => {
   const schema = Joi.object().keys({
     amd: Joi.object(),
     bail: Joi.boolean(),
+    cache: Joi.boolean(),
     context: contextSchema,
     devServer: devServerSchema,
     devtool: devtoolSchema,
@@ -50,7 +51,7 @@ export const makeSchema = (schemaOptions, schemaExtension) => {
     output: outputSchema,
     plugins: pluginsSchema,
     profile: Joi.boolean(),
-    // progress: Joi.boolean(),
+    mode: Joi.string(),
     recordsInputPath: looksLikeAbsolutePath,
     recordsOutputPath: looksLikeAbsolutePath,
     recordsPath: looksLikeAbsolutePath,

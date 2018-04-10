@@ -4,6 +4,7 @@ import here from 'path-here'
 import webpack from 'webpack'
 import { filter, flatten, merge } from 'lodash'
 import WebpackNotifierPlugin from 'webpack-notifier'
+import DirectoryNamedWebpackPlugin from 'directory-named-webpack-plugin'
 
 const packageJson = {
   name: 'formly',
@@ -42,25 +43,31 @@ const getCoverageLoaders = () => [
     }, {
       loader: 'babel-loader'
     }, {
-      loader: 'eslint-loader?configFile=./other/test.eslintrc'
+      loader: 'eslint-loader',
+      options: {
+        configFile: './other/test.eslintrc'
+      }
     }],
     exclude: /node_modules/
   },
   {
     test: /\.js$/,
-  use: [{
-    loader: 'ng-annotate-loader'
-  }, {
-    loader: 'isparta-loader'
-  }, {
-    loader: 'eslint-loader?configFile=./other/src.eslintrc'
-  }],
-  exclude: /node_modules|\.test.js$|\.mock\.js$/ // exclude node_modules and test files
+    use: [{
+      loader: 'ng-annotate-loader'
+    }, {
+      loader: 'isparta-loader'
+    }, {
+      loader: 'eslint-loader',
+      options: {
+        configFile: './other/src.eslintrc'
+      }
+    }],
+    exclude: /node_modules|\.test.js$|\.mock\.js$/ // exclude node_modules and test files
   }
 ];
 
 const getCommonPlugins = () => (filter([
-  new webpack.BannerPlugin('string stuff'),
+  new webpack.BannerPlugin({banner: 'string stuff', raw: true, entryOnly: true}),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     VERSION: JSON.stringify(packageJson.version)
@@ -83,7 +90,7 @@ const getTestConfig = () => ({
 });
 
 const getCommonConfig = () => ({
-  context: process.cwd(),
+  context: 'exists',
   entry: './configs.js',
   output: {
     libraryTarget: 'umd',
@@ -94,6 +101,7 @@ const getCommonConfig = () => ({
     reasons: true
   },
   resolve: {
+    plugins: [new DirectoryNamedWebpackPlugin()],
     extensions: ['.js'],
     alias: {
       'angular-fix': here('src/angular-fix')

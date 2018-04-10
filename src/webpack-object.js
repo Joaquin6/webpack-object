@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { isArray, isObject } from 'lodash';
 
-import { validateOutputVersion, validateSchemas } from './validator';
+import { validateOutputVersion, validateConfigs, validateOptions } from './validator';
 import optionsValidationError from './utils/errors';
 
 export { default as Joi } from 'Joi';
@@ -29,16 +29,20 @@ export default (version, options) => {
     throw new Error('webpack version does not exist');
   }
 
-  const schema = getWebpackOptionsSchema(outputVersion);
+  const results = validateOptions(version, options);
 
-  const { configs } = options;
+  return results;
 
-  if (isObject(configs)) {
-    configs = [configs];
-  }
+  // const schema = getWebpackOptionsSchema(outputVersion);
 
-  const schemaValidationErrors = validateConfigs(version, schema, configs);
-  if(schemaValidationErrors.length) {
-    throw new optionsValidationError(schemaValidationErrors);
-  }
+  // const { configs } = options;
+
+  // if (isObject(configs)) {
+  //   configs = [configs];
+  // }
+
+  // const schemaValidationErrors = validateConfigs(version, schema, configs);
+  // if(schemaValidationErrors.length) {
+  //   throw new optionsValidationError(schemaValidationErrors);
+  // }
 }

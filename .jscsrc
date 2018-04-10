@@ -2,7 +2,8 @@
 	// Project Specific
 	"excludeFiles": [
 		"node_modules/**",
-		"coverage/**"
+		"coverage/**",
+    "lib/**"
 	],
 
 	// Added for JSX Support

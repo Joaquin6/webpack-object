@@ -6,20 +6,18 @@
 var path = require('path');
 var zlib = require('zlib');
 // Webpack Plugins
-var webpack = require('webpack');
-var ProvidePlugin = require('webpack/lib/ProvidePlugin');
-var DefinePlugin = require('webpack/lib/DefinePlugin');
+var webpack, { DefinePlugin, ProvidePlugin } = require('webpack');
 // var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
 // var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
-var UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
 // var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
-var CompressionPlugin = require('compression-webpack-plugin');
+var WebpackMd5Hash    = require('webpack-md5-hash');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var WebpackMd5Hash    = require('webpack-md5-hash');
-var ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-var HOST = process.env.HOST || 'localhost';
-var PORT = process.env.PORT || 8080;
+var UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
+var CompressionPlugin = require('compression-webpack-plugin');
+var DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+
+const { HOST = 'localhost', PORT = 8080, NODE_ENV: ENV = 'production' } = process.env;
 
 var metadata = {
   title: 'Angular2 Webpack Starter by @gdi2990 from @AngularClass',
@@ -51,7 +49,7 @@ function prepend(extensions, args) {
     return memo.concat(val, args.map(function(prefix) {
       return prefix + val
     }));
-  }, ['']);
+  }, []);
 }
 
 export default {
@@ -75,6 +73,8 @@ export default {
   },
 
   resolve: {
+    plugins: [new DirectoryNamedWebpackPlugin()],
+    modules: [root('exists')],
     // cache: false,
     // ensure loader extensions match
     extensions: prepend(['.ts','.js','.json','.css','.html'], '.async') // ensure .async.ts etc also works

@@ -60,6 +60,8 @@ const loaderSchemaFn = ({ rules }) => {
     exclude: conditionSchema,
     include: conditionSchema,
     enforce: Joi.string().optional(),
+    loader: Joi.string().optional(),
+    query: Joi.object().optional(),
     use: Joi.alternatives().try(Joi.string(), useArraySchema),
   })
   .xor('use', 'loader')
@@ -75,7 +77,7 @@ const loaderSchemaFn = ({ rules }) => {
   if (rules['loader-enforce-include-or-exclude']) {
     rule = rule
       .or('exclude', 'include')
-      .label('use')
+      .label('loader')
       .options({ language: { object: { missing: LOADER_INCLUDE_OR_EXCLUDE_MESSAGE } } })
   }
 

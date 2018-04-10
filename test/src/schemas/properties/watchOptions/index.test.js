@@ -1,5 +1,5 @@
-import schema from './index'
-import { allValid } from '../../../../test/utils'
+import schema from '../../../../../src/schemas/properties/watchOptions'
+import { allValid } from '../../../../utils'
 
 const validModuleConfigs = [
   { input: { aggregateTimeout: 300 } },

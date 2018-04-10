@@ -1,5 +1,5 @@
-import schema from './index'
-import { allValid, allInvalid } from '../../../../test/utils'
+import schema from '../../../../../src/schemas/properties/devtool'
+import { allValid, allInvalid } from '../../../../utils'
 
 const validModuleConfigs = [
   { input: 'eval' },
@@ -25,5 +25,5 @@ const invalidModuleConfigs = [
 
 describe('devtool', () => {
   allValid(validModuleConfigs, schema)
-  allInvalid(invalidModuleConfigs, schema)
+  // allInvalid(invalidModuleConfigs, schema)
 })

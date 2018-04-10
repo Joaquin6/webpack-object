@@ -1,10 +1,10 @@
 import path from 'path'
 
-import configs from '../../test/passing-configs'
-import failingConfigs from '../../test/failing-configs'
-import validatecjs, { validateRoot as validate, Joi } from './index'
+import configs from '../../passing-configs'
+import failingConfigs from '../../failing-configs'
+import validatecjs, { validateRoot as validate, Joi } from '../../../src/schemas'
 
-describe.only('schemas', () => {
+describe('schemas', () => {
   let sandbox
   let processExitStub
   let consoleInfoStub
@@ -23,15 +23,10 @@ describe.only('schemas', () => {
   configs.forEach(({ config, name }) => {
     it(`validates ${name}`, () => {
       validate(config)
-
       // The success message should have been printed
       expect(consoleInfoStub.callCount).to.equal(1)
-
       // The error message should not have been printed
-      if (consoleErrorStub.callCount > 0) {
-        throw new Error(consoleErrorStub.args[0])
-      }
-
+      expect(consoleErrorStub.callCount).to.equal(0)
       // process.exit should not have been called
       expect(processExitStub.callCount).to.equal(0)
     })
@@ -43,16 +38,12 @@ describe.only('schemas', () => {
 
     it(`validates ${name} using CJS`, () => {
       validatecjs(config)
-
       // The success message should have been printed
-      assert(consoleInfoStub.callCount === 0)
-
+      expect(consoleInfoStub.callCount).to.equal(1)
       // The error message should not have been printed
-      if (consoleErrorStub.callCount > 0) {
-        throw new Error(consoleErrorStub.args[0])
-      }
+      expect(consoleErrorStub.callCount).to.equal(0)
       // process.exit should not have been called
-      assert(processExitStub.callCount === 0)
+      expect(processExitStub.callCount).to.equal(0)
     })
   })
 
@@ -60,10 +51,9 @@ describe.only('schemas', () => {
     it(`throws for ${name}`, () => {
       validate(config)
       // The error message should have been printed
-      assert(consoleErrorStub.callCount === 1)
-
+      expect(consoleErrorStub.callCount).to.equal(1)
       // process.exit should have been called
-      assert(processExitStub.callCount === 1)
+      expect(processExitStub.callCount).to.equal(1)
     })
   })
 

@@ -8,6 +8,7 @@ import path from 'path'
 import webpack from 'webpack'
 import CopyWebpackPlugin  from 'copy-webpack-plugin'
 import HtmlWebpackPlugin  from 'html-webpack-plugin'
+import DirectoryNamedWebpackPlugin from 'directory-named-webpack-plugin'
 
 const { NODE_ENV: ENV = 'development' } = process.env;
 
@@ -21,7 +22,7 @@ function root(args) {
 function prepend(extensions, args = []) {
   if (!Array.isArray(args)) { args = [args] }
   return extensions.reduce((memo, val) =>
-    memo.concat(val, args.map(prefix => prefix + val)), ['']);
+    memo.concat(val, args.map(prefix => prefix + val)), []);
 }
 function rootNode(args) {
   args = Array.prototype.slice.call(arguments, 0);
@@ -29,11 +30,11 @@ function rootNode(args) {
 }
 
 const metadata = {
+  ENV,
   title: 'Angular2 Webpack Starter by @gdi2990 from @AngularClass',
   baseUrl: '/',
   host: 'localhost',
-  port: 3000,
-  ENV: ENV
+  port: 3000
 };
 
 export default {
@@ -42,7 +43,7 @@ export default {
   // for faster builds use 'eval'
   devtool: 'source-map',
   // debug: true,
-  // cache: false,
+  cache: false,
 
   // our angular app
   //entry: { 'polyfills': './src/polyfills.ts', 'main': './src/main.ts' },
@@ -62,7 +63,12 @@ export default {
 
   module: {
     rules: [
-      // { test: /\.ts$/, loader: 'tslint-loader', exclude: [ root('node_modules') ] },
+      {
+        test: /\.ts$/,
+        enforce: 'pre',
+        use: 'tslint-loader',
+        exclude: [root('node_modules')]
+      },
       // TODO(gdi2290): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
       {
         test: /\.js$/,
@@ -88,13 +94,6 @@ export default {
         exclude: [ /\.(spec|e2e|async)\.ts$/ ],
         use: [{
           loader: 'ts-loader',
-        }]
-      },
-      // Support for *.json files.
-      {
-        test: /\.json$/,
-        use: [{
-          loader: 'json-loader',
         }]
       },
       // Support for CSS as raw text
