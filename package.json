@@ -4,7 +4,14 @@
   "description": "adapt webpack configuration object into any webpack version",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "babel src -d lib -w",
+    "build": "babel src -d lib",
+    "postinstall": "yarn build",
+    "test": "mocha test/**/*.spec.js",
+    "lint": "eslint src/; eslint test/",
+    "lint:fix": "eslint --fix src/; eslint --fix test/",
+    "lint:staged": "git diff --cached --name-only -- src/ test/ bin/ | egrep \"\\\\.js$\" | xargs -L1 eslint",
+    "dev:inspect": "node-inspector & node -r babel-register --inspect-brk ./index.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +25,34 @@
   "bugs": {
     "url": "https://github.com/Joaquin6/webpack-object/issues"
   },
-  "homepage": "https://github.com/Joaquin6/webpack-object#readme"
+  "homepage": "https://github.com/Joaquin6/webpack-object#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-mocha": "^5.0.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^5.0.5",
+    "sinon": "^4.5.0",
+    "sinon-chai": "^3.0.0"
+  },
+  "dependencies": {
+    "ajv": "^6.4.0",
+    "ajv-keywords": "^3.1.0",
+    "fs-extra": "^5.0.0",
+    "joi": "^13.1.2",
+    "lodash": "^4.17.5"
+  },
+  "precommit": [
+    "lint:staged"
+  ]
 }
