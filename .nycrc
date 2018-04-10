@@ -20,7 +20,7 @@
     "reporter": [
       "lcov",
       "text",
-      "html"
+      "text-summary"
     ],
     "require": [ "babel-register" ],
     "all": true

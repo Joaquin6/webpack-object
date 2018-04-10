@@ -17,13 +17,7 @@ describe('Webpack Object', () => {
   configs.forEach(({ config, name }) => {
     it(`generate webpack config object from given options from "${name}"`, () => {
       options.configs = config
-
-      const results = webpackObject(4, options)
-
-      // console.log(`\n\n[webpack-object] Generated Object from "${name}"\n`);
-      // console.log(results);
-
-      assert(results)
+      assert(webpackObject(4, options))
     })
   })
 

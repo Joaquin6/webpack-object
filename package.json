@@ -50,7 +50,7 @@
     "lint": "eslint src/; eslint test/",
     "lint:fix": "eslint --fix src/; eslint --fix test/",
     "lint:staged": "git diff --cached --name-only -- src/ test/ bin/ | egrep \"\\\\.js$\" | xargs -L1 eslint",
-    "cover": "cross-env NODE_ENV=test nyc  --reporter=lcov --reporter=text --reporter=html mocha \"test/**/*.spec.js\"",
+    "cover": "cross-env NODE_ENV=test nyc mocha \"test/**/*.spec.js\"",
     "dev:inspect": "node-inspector & node -r babel-register --inspect-brk ./index.js",
     "report-coverage": "cat ./coverage/lcov.info | node_modules/.bin/codecov",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
