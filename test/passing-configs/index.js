@@ -16,6 +16,6 @@ const filePathToConfigObj = (filepath) => {
 
 export default glob.sync(
   path.join(__dirname, './*.js'),
-  { ignore: __filename }
+  { ignore: __filename },
 ).map(filePathToConfigObj)
 

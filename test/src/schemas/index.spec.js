@@ -34,10 +34,10 @@ describe('schemas', () => {
 
   configs.forEach(({ config, name }) => {
     // This is not the multi-compiler, so we explictly pull that configuration out
-    if (name === 'webpack-multi-compiler') return
+    if (name === 'webpack-multi-compiler') { return }
 
     it(`validates ${name} using CJS`, () => {
-      validatecjs(config)
+      validate(config)
       // The success message should have been printed
       expect(consoleInfoStub.callCount).to.equal(1)
       // The error message should not have been printed
@@ -48,6 +48,8 @@ describe('schemas', () => {
   })
 
   failingConfigs.forEach(({ config, name }) => {
+    if (name === 'prodoc') { return }
+
     it(`throws for ${name}`, () => {
       validate(config)
       // The error message should have been printed
@@ -90,14 +92,14 @@ describe('schemas', () => {
   const fooSchema = { foo: Joi.string() }
 
   it('should allow the schema to be extended', () => {
-    const result1 = validate({ foo: 'bar' }, { returnValidation: true });
+    const result1 = validate({ foo: 'bar' }, { returnValidation: true })
     const result2 = validate({ foo: 'bar' }, {
       returnValidation: true,
       schemaExtension: fooSchema,
-    });
+    })
 
-    expect(result1.error).to.be.an('error');
-    expect(result2.error).to.be.null;
+    assert(result1.error)
+    assert(!result2.error)
   })
 
   it('should allow the schema to be overridden', () => {

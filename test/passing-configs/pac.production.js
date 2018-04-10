@@ -3,15 +3,15 @@
  * An Electron packager manager desktop app
  */
 
-const path = require('path');
-const autoprefixer = require('autoprefixer');
-const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
-const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+const path = require('path')
+const autoprefixer = require('autoprefixer')
+const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin')
+const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin')
 
 const lessModuleLoader = (prod) => {
-  const useLoaders = [{ loader: 'style-loader' }];
+  const useLoaders = [{ loader: 'style-loader' }]
 
   if (prod) {
     useLoaders.push(ExtractTextPlugin.extract('style-loader', {
@@ -20,26 +20,26 @@ const lessModuleLoader = (prod) => {
         modules: true,
         postcss: true,
         less: true,
-      }
+      },
     }, {
-      publicPath: ''
-    }));
+      publicPath: '',
+    }))
   } else {
     useLoaders.push({
       loader: 'css-loader',
       options: {
         localIdentName: '[name]__[local]___[hash:base64:5]',
-      }
-    });
+      },
+    })
   }
 
   return {
     test: /\.less.module$/,
     use: useLoaders,
-  };
-};
+  }
+}
 
-export const makeConfig = ({production}) => ({
+export const makeConfig = ({ production }) => ({
   resolve: {
     plugins: [new DirectoryNamedWebpackPlugin()],
     extensions: ['.js', '.jsx'],
@@ -60,27 +60,27 @@ export const makeConfig = ({production}) => ({
       {
         test: /\.jsx?$/,
         include: /src/,
-        use: [{loader: 'babel-loader'}],
+        use: [{ loader: 'babel-loader' }],
       },
       {
         test: /\.less$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: 'style-loader',
           },
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
           },
           {
             loader: 'autoprefixer-loader',
             options: {
-              browsers:['last 2 version']
-            }
+              browsers: ['last 2 version'],
+            },
           },
           {
-            loader: 'less-loader'
-          }
-        ]
+            loader: 'less-loader',
+          },
+        ],
       },
       {
         test: /\.(?:eot|ttf|woff2?)$/,
@@ -89,10 +89,10 @@ export const makeConfig = ({production}) => ({
             loader: 'file-loader',
             options: {
               name: '[path][name]-[hash:6].[ext]',
-              context: 'assets'
-            }
-          }
-        ]
+              context: 'assets',
+            },
+          },
+        ],
       },
     ].concat([
       lessModuleLoader(false),
@@ -103,7 +103,7 @@ export const makeConfig = ({production}) => ({
   // },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': {NODE_ENV: JSON.stringify(process.env.NODE_ENV)},
+      'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
     }),
 
     // Moment.js imports the locales dynamically which is why webpack will include all 60 locales (>300kb)
@@ -118,6 +118,6 @@ export const makeConfig = ({production}) => ({
       sourceMap: false, // This means dropping build time from ~45 sec to ~32 sec
     })] : []),
   devtool: 'hidden-source-map',
-});
+})
 
-export default makeConfig({production: true});
+export default makeConfig({ production: true })

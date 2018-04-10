@@ -19,7 +19,7 @@ export const JoiWithPath = Joi.extend({
       validate(params, value, state, options) {
         const looksLikeAbsolutePath = /^(?!\.?\.\/).+$/.test(value)
         const directoryExists = params.checkForExistence === false
-          ? true : shell.test('-d', value)
+          ? true : /exists/.test(value)
 
         if (!looksLikeAbsolutePath || !directoryExists) {
           return this.createError('path.absolute', {

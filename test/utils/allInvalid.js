@@ -30,8 +30,8 @@ export default (configs, schema) => {
       assert(result.error)
       const { error: { details } } = result
 
-      console.log(details[0], '\n\n');
-      console.log(expectedError);
+      console.log(details[0], '\n\n')
+      console.log(expectedError)
 
       // if (throwError) {
       //   throw error

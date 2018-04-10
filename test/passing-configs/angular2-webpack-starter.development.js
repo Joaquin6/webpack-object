@@ -6,27 +6,27 @@
 import path from 'path'
 
 import webpack from 'webpack'
-import CopyWebpackPlugin  from 'copy-webpack-plugin'
-import HtmlWebpackPlugin  from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import DirectoryNamedWebpackPlugin from 'directory-named-webpack-plugin'
 
-const { NODE_ENV: ENV = 'development' } = process.env;
+const { NODE_ENV: ENV = 'development' } = process.env
 
 // Helper functions
 
 function root(args) {
-  args = Array.prototype.slice.call(arguments, 0);
-  return path.resolve.apply(path, [__dirname].concat(args));
+  args = Array.prototype.slice.call(arguments, 0)
+  return path.resolve(...[__dirname].concat(args))
 }
 
 function prepend(extensions, args = []) {
   if (!Array.isArray(args)) { args = [args] }
   return extensions.reduce((memo, val) =>
-    memo.concat(val, args.map(prefix => prefix + val)), []);
+    memo.concat(val, args.map((prefix) => prefix + val)), [])
 }
 function rootNode(args) {
-  args = Array.prototype.slice.call(arguments, 0);
-  return root.apply(path, ['node_modules'].concat(args));
+  args = Array.prototype.slice.call(arguments, 0)
+  return root.apply(path, ['node_modules'].concat(args))
 }
 
 const metadata = {
@@ -34,8 +34,8 @@ const metadata = {
   title: 'Angular2 Webpack Starter by @gdi2990 from @AngularClass',
   baseUrl: '/',
   host: 'localhost',
-  port: 3000
-};
+  port: 3000,
+}
 
 export default {
   // static data for index.html
@@ -53,12 +53,12 @@ export default {
     path: root('exists'),
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
-    chunkFilename: '[id].chunk.js'
+    chunkFilename: '[id].chunk.js',
   },
 
   resolve: {
     // ensure loader extensions match
-    extensions: prepend(['.ts','.js','.json','.css','.html'], '.async') // ensure .async.ts etc also works
+    extensions: prepend(['.ts', '.js', '.json', '.css', '.html'], '.async'), // ensure .async.ts etc also works
   },
 
   module: {
@@ -67,21 +67,21 @@ export default {
         test: /\.ts$/,
         enforce: 'pre',
         use: 'tslint-loader',
-        exclude: [root('node_modules')]
+        exclude: [root('node_modules')],
       },
       // TODO(gdi2290): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
       {
         test: /\.js$/,
         enforce: 'pre',
         exclude: [
-          root('node_modules/rxjs')
+          root('node_modules/rxjs'),
         ],
         use: 'source-map-loader',
       },
       // Support Angular 2 async routes via .async.ts
       {
         test: /\.async\.ts$/,
-        exclude: [ /\.(spec|e2e)\.ts$/ ],
+        exclude: [/\.(spec|e2e)\.ts$/],
         use: [{
           loader: 'es6-promise-loader',
         }, {
@@ -91,17 +91,17 @@ export default {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        exclude: [ /\.(spec|e2e|async)\.ts$/ ],
+        exclude: [/\.(spec|e2e|async)\.ts$/],
         use: [{
           loader: 'ts-loader',
-        }]
+        }],
       },
       // Support for CSS as raw text
       {
         test: /\.css$/,
         use: [{
           loader: 'raw-loader',
-        }]
+        }],
       },
       // support for .html as raw text
       {
@@ -110,12 +110,12 @@ export default {
           loader: 'raw-loader',
         }],
         exclude: [
-          root('src/index.html')
-        ]
-      }
+          root('src/index.html'),
+        ],
+      },
 
       // if you add a loader include the resolve file extension above
-    ]
+    ],
   },
 
   // optimization: {
@@ -126,16 +126,16 @@ export default {
     // new webpack.optimize.OccurenceOrderPlugin(true),
     // new webpack.optimize.CommonsChunkPlugin({ name: 'polyfills', filename: 'polyfills.bundle.js', minChunks: Infinity }),
     // static assets
-    new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
+    new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
     // generating html
     new HtmlWebpackPlugin({ template: 'src/index.html' }),
     // replace
     new webpack.DefinePlugin({
       'process.env': {
-        'ENV': JSON.stringify(metadata.ENV),
-        'NODE_ENV': JSON.stringify(metadata.ENV)
-      }
-    })
+        ENV: JSON.stringify(metadata.ENV),
+        NODE_ENV: JSON.stringify(metadata.ENV),
+      },
+    }),
   ],
 
   // Other module loader config
@@ -151,13 +151,13 @@ export default {
     host: metadata.host,
     // contentBase: 'src/',
     historyApiFallback: true,
-    watchOptions: { aggregateTimeout: 300, poll: 1000 }
+    watchOptions: { aggregateTimeout: 300, poll: 1000 },
   },
   // we need this due to problems with es6-shim
   node: {
     global: 'window',
     module: false,
     clearImmediate: false,
-    setImmediate: false
-  }
-};
+    setImmediate: false,
+  },
+}

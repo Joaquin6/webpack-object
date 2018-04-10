@@ -4,32 +4,32 @@
  *
  */
 
-var path = require("path");
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
 
 module.exports = [
   {
-    entry: "./example",
+    entry: './example',
     output: {
-      path: path.join(__dirname, "js"),
-      filename: "mobile.js"
+      path: path.join(__dirname, 'js'),
+      filename: 'mobile.js',
     },
     plugins: [
       new webpack.DefinePlugin({
-        ENV: JSON.stringify("mobile")
-      })
-    ]
+        ENV: JSON.stringify('mobile'),
+      }),
+    ],
   },
   {
-    entry: "./example",
+    entry: './example',
     output: {
-      path: path.join(__dirname, "js"),
-      filename: "desktop.js"
+      path: path.join(__dirname, 'js'),
+      filename: 'desktop.js',
     },
     plugins: [
       new webpack.DefinePlugin({
-        ENV: JSON.stringify("desktop")
-      })
-    ]
-  }
-];
+        ENV: JSON.stringify('desktop'),
+      }),
+    ],
+  },
+]

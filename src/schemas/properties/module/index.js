@@ -46,14 +46,14 @@ const loaderSchemaFn = ({ rules }) => {
       loader: Joi.string(),
       options: Joi.object().optional(),
       query: Joi.alternatives().try(Joi.string(), Joi.object()).optional(),
-    })
+    }),
   ).options({
     language: {
       array: {
         includes: LOADER_IN_LOADERS_MESSAGE,
       },
     },
-  });
+  })
 
   let rule = Joi.object({
     test: conditionSchema.required(),
@@ -64,15 +64,15 @@ const loaderSchemaFn = ({ rules }) => {
     query: Joi.object().optional(),
     use: Joi.alternatives().try(Joi.string(), useArraySchema),
   })
-  .xor('use', 'loader')
-  .nand('use', 'query')
-  .options({
-    language: {
-      object: {
-        nand: LOADERS_QUERY_MESSAGE
-      }
-    }
-  })
+    .xor('use', 'loader')
+    .nand('use', 'query')
+    .options({
+      language: {
+        object: {
+          nand: LOADERS_QUERY_MESSAGE,
+        },
+      },
+    })
 
   if (rules['loader-enforce-include-or-exclude']) {
     rule = rule
@@ -82,11 +82,10 @@ const loaderSchemaFn = ({ rules }) => {
   }
 
   if (rules['loader-prefer-include']) {
-    rule = rule.concat(
-      Joi.object({
-        include: conditionSchema.required(),
-        exclude: Joi.any().forbidden(),
-      })
+    rule = rule.concat(Joi.object({
+      include: conditionSchema.required(),
+      exclude: Joi.any().forbidden(),
+    })
       .options({
         language: {
           any: {
@@ -94,8 +93,7 @@ const loaderSchemaFn = ({ rules }) => {
             unknown: LOADER_EXCLUDE_FORBIDDEN,
           },
         },
-      })
-    )
+      }))
   }
 
   return rule

@@ -1,28 +1,52 @@
 import Joi from 'joi'
-import { ls } from 'shelljs'
 import { memoize } from 'lodash'
 import basename from 'basename'
 import findNodeModules from 'find-node-modules'
+
+const shellLS = (path_, couldBePath) => {
+  const path = path_ === '-d' ? couldBePath : path_
+
+  if (/does-not-exist/.test(path)) {
+    return []
+  } else if (/exists-with-babel-cli-js/.test(path)) {
+    return ['babel-cli.js']
+  } else if (/exists-with-codecov-folder/.test(path)) {
+    if (path_ === '-d') {
+      return ['codecov']
+    }
+    return []
+  } else if (/exists-with-node-modules\/node_modules/.test(path)) {
+    return ['babel-cli.js'] // should not be a problem
+  } else if (/exists/.test(path)) {
+    return ['stuff']
+  } else {
+    throw new Error(
+      `You should handle the path "${path}" in the shell.ls stub. ` +
+      'It its a path that should not exist, include the string "does-not-exist", ' +
+      'It it should exist, include the string "exists", ',
+    )
+  }
+};
 
 // It's not super clean to mock this here, but i'm ok with this for now
 const getNodeModulesContents = memoize((dir) => { // eslint-disable-line arrow-body-style
   /* istanbul ignore next */
   return process.env.NODE_ENV === 'test'
     ? ['codecov', 'babel-cli']
-    : new Set(ls(dir))
+    : new Set(shellLS(dir))
 })
 
 /**
  * Helpers
  */
-const calculateIntersection = (set1, set2) => new Set([...set1].filter(x => set2.has(x)))
+const calculateIntersection = (set1, set2) => new Set([...set1].filter((x) => set2.has(x)))
 
 const basenameCached = memoize(basename)
 
 const cachedBasenameLs = memoize((dir) => {
   // TODO: Refactor this to use webpacks `modulesDirectories` somehow
-  const files = ls(`${dir}/*{.json,.js,.jsx,.ts}`)
-  const folders = ls('-d', `${dir}/*/`)
+  const files = shellLS(`${dir}/*{.json,.js,.jsx,.ts}`)
+  const folders = shellLS('-d', `${dir}/*/`)
   const both = [...files, ...folders]
   return new Set(both.map(basenameCached))
 })

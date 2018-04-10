@@ -10,7 +10,7 @@ export default (configs, schema) => {
     if (!Object.prototype.hasOwnProperty.call(input, 'input')) {
       throw new Error(
         'Please supply the valid config object like `{ input: <valid-config-object> }`.' +
-        `You passed ${JSON.stringify(input)}`
+        `You passed ${JSON.stringify(input)}`,
       )
     }
 

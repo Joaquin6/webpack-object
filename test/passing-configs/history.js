@@ -3,7 +3,7 @@ import { DefinePlugin } from 'webpack'
 export default {
   output: {
     library: 'History',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
   module: {
     rules: [{
@@ -14,18 +14,18 @@ export default {
         options: {
           stage: 0,
           loose: 'all',
-          plugins: ['dev-expression']
-        }
-      }]
-    }]
+          plugins: ['dev-expression'],
+        },
+      }],
+    }],
   },
   node: {
-    Buffer: false
+    Buffer: false,
   },
   plugins: [
     new DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-    })
-  ]
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    }),
+  ],
 }
 

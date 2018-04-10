@@ -4,7 +4,7 @@ import { noRootFilesNodeModulesNameClash } from '../../rules'
 
 export default ({ rules }) => {
   const rootDir = rules['no-root-files-node-modules-nameclash']
-    ? absolutePath.concat(noRootFilesNodeModulesNameClash) : absolutePath;
+    ? absolutePath.concat(noRootFilesNodeModulesNameClash) : absolutePath
 
   // console.log('\n\trootDir => ', rootDir);
 
@@ -18,7 +18,7 @@ export default ({ rules }) => {
     alias: Joi.object().pattern(/.+/, Joi.string()),
     modules: Joi.array().items(
       Joi.string(),
-      rootDir
+      rootDir,
     ),
     extensions: Joi.array().items([Joi.string().regex(/\..+/), Joi.string().min(2)]),
     mainFields: Joi.array(),
@@ -29,5 +29,5 @@ export default ({ rules }) => {
     ],
     plugins: Joi.array().optional(),
   })
-};
+}
 

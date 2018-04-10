@@ -3,13 +3,13 @@ import { webpackConfig, nodeEnv } from '../../../src/bin/script-parsers'
 describe('webpack config name parser', () => {
   it('should parse --config', () => {
     assert(
-      webpackConfig('NODE_ENV=development webpack --config demo.js') === 'demo.js'
+      webpackConfig('NODE_ENV=development webpack --config demo.js') === 'demo.js',
     )
   })
 
   it('should default to webpack.config.js', () => {
     assert(
-      webpackConfig('webpack --profile --json > stats.json') === 'webpack.config.js'
+      webpackConfig('webpack --profile --json > stats.json') === 'webpack.config.js',
     )
   })
 
@@ -31,9 +31,9 @@ describe('webpack config name parser', () => {
       'npm install && npm run validate',
     ]
 
-    sciptsThatDoNotCallWebpackCli.forEach(script => {
+    sciptsThatDoNotCallWebpackCli.forEach((script) => {
       assert(
-        webpackConfig(script) === undefined
+        webpackConfig(script) === undefined,
       )
     })
   })
@@ -46,9 +46,9 @@ describe('webpack config name parser', () => {
       'webpack --profile --json > stats.json',
     ]
 
-    scriptsThatCallWebpacCli.forEach(script => {
+    scriptsThatCallWebpacCli.forEach((script) => {
       assert(
-        webpackConfig(script) !== undefined
+        webpackConfig(script) !== undefined,
       )
     })
   })

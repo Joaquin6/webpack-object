@@ -10,71 +10,71 @@ const packageJson = {
   name: 'formly',
   version: '0.0.0',
   contributors: [],
-};
+}
 
 const getJavaScriptLoader = () => ({
   test: /\.js$/,
   exclude: /node_modules/,
   use: [{
-    loader: 'ng-annotate-loader'
+    loader: 'ng-annotate-loader',
   }, {
-    loader: 'babel-loader'
+    loader: 'babel-loader',
   }, {
     loader: 'eslint-loader',
     options: {
-      configFile: './other/src.eslintrc'
-    }
+      configFile: './other/src.eslintrc',
+    },
   }],
-});
+})
 
 const getHtmlLoader = () => ({
   test: /\.html$/,
   exclude: /node_modules/,
-  use: [{loader: 'raw-loader'}],
-});
+  use: [{ loader: 'raw-loader' }],
+})
 
 const getCommonPlugins = () => (filter([
-  new webpack.BannerPlugin({banner: 'string stuff', raw: true, entryOnly: true}),
+  new webpack.BannerPlugin({ banner: 'string stuff', raw: true, entryOnly: true }),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    'process.env.VERSION': JSON.stringify(packageJson.version)
+    'process.env.VERSION': JSON.stringify(packageJson.version),
   }),
   process.env.CI ? undefined : new WebpackNotifierPlugin({
     title: 'angular-formly',
-    contentImage: here('other/logo/angular-formly-logo-64px.png')
-  })
-]));
+    contentImage: here('other/logo/angular-formly-logo-64px.png'),
+  }),
+]))
 
 const getDevConfig = () => ({
   output: {
-    filename: 'dist/formly.js'
+    filename: 'dist/formly.js',
   },
   module: {
     rules: [
       getJavaScriptLoader(),
-      getHtmlLoader()
-    ]
+      getHtmlLoader(),
+    ],
   },
-  plugins: getCommonPlugins()
-});
+  plugins: getCommonPlugins(),
+})
 
 const getCommonConfig = () => ({
   context: 'exists',
   entry: './configs.js',
   output: {
     libraryTarget: 'umd',
-    library: 'ngFormly'
+    library: 'ngFormly',
   },
   stats: {
     colors: true,
-    reasons: true
+    reasons: true,
   },
   resolve: {
     plugins: [new DirectoryNamedWebpackPlugin()],
     extensions: ['.js'],
     alias: {
-      'angular-fix': here('src/angular-fix')
-    }
+      'angular-fix': here('src/angular-fix'),
+    },
   },
   // eslint: {
   //   emitError: true,
@@ -88,11 +88,11 @@ const getCommonConfig = () => ({
       root: 'apiCheck',
       amd: 'api-check',
       commonjs2: 'api-check',
-      commonjs: 'api-check'
-    }
-  }
-});
+      commonjs: 'api-check',
+    },
+  },
+})
 
-const getConfig = () => merge(getCommonConfig(), getDevConfig());
+const getConfig = () => merge(getCommonConfig(), getDevConfig())
 
-export default getConfig();
+export default getConfig()

@@ -27,7 +27,6 @@ export default Joi.object({
   crossOriginLoading: Joi.alternatives().try([
     Joi.bool().valid(false),
     Joi.string().valid(['anonymous', 'use-credentials']),
-  ]).options({ language: { boolean: {
-    base: 'should be `false`, "anonymous" or "use-credentials"' } } }),
+  ]).options({ language: { boolean: { base: 'should be `false`, "anonymous" or "use-credentials"' } } }),
 })
 

@@ -28,7 +28,7 @@ const defaultSchemaOptions = {
     'loader-enforce-include-or-exclude': false,
     'loader-prefer-include': false,
   },
-};
+}
 
 export { default as Joi } from 'Joi'
 
@@ -63,20 +63,20 @@ export const makeSchema = (schemaOptions, schemaExtension) => {
     watchOptions: watchOptionsSchema,
     performance: performanceSchema,
     stats: Joi.any(),
-    target: Joi.any(),
+    target: Joi.string(),
   })
 
   return schemaExtension ? schema.keys(schemaExtension) : schema
 }
 
 export const throwForWebpack2 = () => {
-  const cwd = process.cwd();
+  const cwd = process.cwd()
 
-  let satisifies = true;
+  let satisifies = true
 
   try {
     const { version } = require(path.join(cwd, 'node_modules', 'webpack', 'package.json'))
-    satisifies = semver.satisfies(version, '^1.x');
+    satisifies = semver.satisfies(version, '^1.x')
   } catch (error) {}
 
   if (!satisifies) {
@@ -87,7 +87,7 @@ export const throwForWebpack2 = () => {
       Please uninstall webpack-validator and remove it from your project!
     `)
   }
-};
+}
 
 const validate = (config, options = {}) => {
   const { returnValidation, schema: overrideSchema, schemaExtension, rules } = options
@@ -100,7 +100,7 @@ const validate = (config, options = {}) => {
   const validationResult = Joi.validate(config, schema, { abortEarly: false })
   validationResult.schemaOptions = schemaOptions // Mainly for having sth to assert on right now
 
-  if (returnValidation) return validationResult
+  if (returnValidation) { return validationResult }
 
   if (validationResult.error) {
     console.error(validationResult.error.annotate())
@@ -108,30 +108,30 @@ const validate = (config, options = {}) => {
   }
 
   return config
-};
+}
 
-export default validate;
+export default validate
 
 // Easier consumability for require (default use case for non-transpiled webpack configs)
 export const validateRoot = (config, options = {}) => {
   const { quiet } = options
 
-  let validationResult;
-  let multiValidationResults;
+  let validationResult
+  let multiValidationResults
 
   if (!isArray(config)) {
-    validationResult = validate(config, options);
+    validationResult = validate(config, options)
   } else {
-    multiValidationResults = [];
+    multiValidationResults = []
 
-    config.forEach(cfg => {
+    config.forEach((cfg) => {
       multiValidationResults.push(validate(cfg, options))
-    });
+    })
   }
 
   if (!quiet) {
     console.info(chalk.green('[webpack-object] Config is valid.'))
   }
 
-  return validationResult || multiValidationResults;
-};
+  return validationResult || multiValidationResults
+}

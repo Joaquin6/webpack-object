@@ -61,7 +61,7 @@ const validModuleConfigs = [
       rules: [
         {
           test: /foo/,
-          use: [{loader: 'style-loader'}, { loader: 'file-loader' }],
+          use: [{ loader: 'style-loader' }, { loader: 'file-loader' }],
         },
       ],
     },

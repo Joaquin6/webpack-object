@@ -17,7 +17,7 @@ program
   .option('-q, --quiet', 'Quiet output')
   .action((configFileName) => {
     configFile = configFileName
-  });
+  })
 
 program.parse(process.argv)
 
@@ -35,22 +35,20 @@ function validateFile(config, quiet) {
     if (err) {
       err.message = `Could not find file "${configFile}"` // eslint-disable-line no-param-reassign
       errorHandler(err)
-    } else {
-      if (stats.isFile()) {
-        const validationResult = validateConfig(config, quiet)
+    } else if (stats.isFile()) {
+      const validationResult = validateConfig(config, quiet)
 
-        if (validationResult.error) {
-          console.info(validationResult.error.annotate())
-          process.exit(1)
-        } else {
-          if (!quiet) console.info(`${config} is valid`)
-          process.exit(0)
-        }
+      if (validationResult.error) {
+        console.info(validationResult.error.annotate())
+        process.exit(1)
       } else {
-        const error = new Error(`Could not find file "${configFile}"`)
-        error.type = 'EISDIR'
-        errorHandler(error)
+        if (!quiet) { console.info(`${config} is valid`) }
+        process.exit(0)
       }
+    } else {
+      const error = new Error(`Could not find file "${configFile}"`)
+      error.type = 'EISDIR'
+      errorHandler(error)
     }
   })
 }

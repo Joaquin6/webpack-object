@@ -40,13 +40,12 @@ module.exports = {
     'prefer-template': 2,
     'object-curly-newline': ['error', { consistent: true }],
     'object-curly-spacing': [2, 'always'],
+    'object-shorthand': 'off',
     'semi': [2, 'never'],
     'spaced-comment': 0,
     'standard/object-curly-even-spacing': [2, 'either'],
     'standard/array-bracket-even-spacing': [2, 'either'],
     'standard/computed-property-even-spacing': [2, 'even']
-    'object-shorthand': 2,
-    'one-var': 0
   },
   globals: {
     after: false,

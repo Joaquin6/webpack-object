@@ -1,5 +1,5 @@
 const path = require('path')
-const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
+const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin')
 
 
 /**
