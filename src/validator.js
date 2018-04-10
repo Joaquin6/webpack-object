@@ -217,8 +217,8 @@ export const validateObject = (version, schema) => {
 };
 
 export const validateConfig = (version, schema, config) => {
-  const validate = ajv.compile(confischemaSchema);
-  const valid = validate(schema);
+  const validate = ajv.compile(schema);
+  const valid = validate(config);
 
   return valid ? [] : filterErrors(validate.errors);
 };

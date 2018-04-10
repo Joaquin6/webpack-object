@@ -4,13 +4,17 @@ import path from 'path';
 import { isArray, isObject } from 'lodash';
 
 import { validateOutputVersion, validateSchemas } from './validator';
-const optionsValidationError = require('./utils/errors');
+import optionsValidationError from './utils/errors';
+
+export { default as Joi } from 'Joi';
 
 export const getWebpackOptionsSchema = async (version) => {
   let configSchema;
 
   try {
-    configSchema = await fs.readJson(path.join(__dirname, `./schemas/${version}/webpackOptionsSchema.json`));
+    configSchema = await fs.readJson(
+      path.join(__dirname, `./schemas/${version}/webpackOptionsSchema.json`)
+    );
   } catch(e) {
     console.error(e);
     throw e;

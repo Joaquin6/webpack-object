@@ -1,4 +1,6 @@
-import webpackObject, { getWebpackOptionsSchema } from '../../src/webpack-object';
+import webpackObject, {
+  getWebpackOptionsSchema,
+} from './webpack-object';
 
 describe('Webpack Object', () => {
   it('should read correct webpackOptionsSchema.json file ', async () =>

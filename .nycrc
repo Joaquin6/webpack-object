@@ -3,26 +3,26 @@
   "nyc": {
     "check-coverage": true,
     "per-file": true,
-    "lines": 99,
-    "statements": 99,
-    "functions": 99,
-    "branches": 99,
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100,
     "watermarks": {
       "lines": [80, 95],
       "functions": [80, 95],
       "branches": [80, 95],
       "statements": [80, 95]
     },
-    "include": [
-      "src/**/*.js"
+    "exclude": [
+      "**/*.test.js",
+      "test/**/*.js"
     ],
     "reporter": [
       "lcov",
       "text",
-      "text-summary"
+      "html"
     ],
     "require": [ "babel-register" ],
-    "cache": true,
     "all": true
   }
 }

@@ -4,6 +4,7 @@ build
 node_modules
 stats.json
 .webpack_dlls
+.nyc_output
 webpack-assets.json*
 dist
 
