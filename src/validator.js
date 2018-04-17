@@ -19,6 +19,9 @@ ajvAbsolutePath(ajv)
 
 export const versionValue = (version) => (version > 4 || version < 1 ? false : version)
 
+export const getNumber = (number, defaultNumber = 4) =>
+  isNaN(parseInt(number, 10)) ? defaultNumber : parseInt(number, 10);
+
 export const validateOutputVersion = (version) => {
   log(`Validating Version: ${version}`);
 
@@ -27,7 +30,10 @@ export const validateOutputVersion = (version) => {
   }
 
   if (isString(version)) {
-    version = versionValue(parseInt(version))
+    const parsedVersion = getNumber(version);
+    log(`Validating Parsed Version: ${parsedVersion}`);
+
+    version = versionValue(parsedVersions)
   }
 
   if (!version) {

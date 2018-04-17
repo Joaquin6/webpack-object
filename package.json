@@ -46,7 +46,7 @@
     "build": "babel -d lib src",
     "postinstall": "npm run build",
     "test": "cross-env NODE_ENV=test mocha \"test/**/*.spec.js\"",
-    "test:debug": "cross-env NODE_ENV=test DEBUG=webpack-object:* mocha \"test/**/*.spec.js\"",
+    "test:debug": "cross-env NODE_ENV=test DEBUG=webpack-object:* BABEL_DISABLE_CACHE=1 node --trace-warnings -r babel-register ./internals/scripts/RunTests.js",
     "watch:test": "cross-env DEBUG=webpack-object:* npm run test -- -w",
     "lint": "eslint src/; eslint test/",
     "lint:fix": "eslint --fix src/; eslint --fix test/",
