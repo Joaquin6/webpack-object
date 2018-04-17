@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import fs from 'fs-extra'
 import AjvKeywords from 'ajv-keywords'
-import { isArray, isNumber, isString } from 'lodash'
+import { has, isArray, isNumber, isString } from 'lodash'
 
 import { validateRoot } from './schemas'
 

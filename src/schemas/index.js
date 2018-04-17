@@ -4,7 +4,7 @@ import Joi from 'joi'
 import sh from 'shelljs'
 import chalk from 'chalk'
 import semver from 'semver'
-import { isArray, merge } from 'lodash'
+import { has, isArray, merge } from 'lodash'
 
 import moduleSchemaFn from './properties/module'
 import entrySchema from './properties/entry'
@@ -134,4 +134,88 @@ export const validateRoot = (config, options = {}) => {
   }
 
   return validationResult || multiValidationResults
+}
+
+export const confirmSchemaVersion = (schema) => {
+  let version = 1;
+
+  const upgradeVersion = (old, newV) => old > newV ? old : newV;
+
+  /** "debug" option was only available in webpack 1 */
+  if (has(schema, 'debug')) {
+    version = upgradeVersion(version, 1);
+  }
+
+  if (has(schema, 'optimize')) {
+    /** "optimize.occurenceOrderPreferEntry" option was only available in webpack 1 */
+    if (has(schema.optimize, 'occurenceOrderPreferEntry')) {
+      version = upgradeVersion(version, 1);
+    }
+  }
+
+  if (has(schema, 'resolveLoader')) {
+    /** "resolveLoader.fastUnsafe" option was only available in webpack 1 */
+    if (has(schema.resolveLoader, 'fastUnsafe')) {
+      version = upgradeVersion(version, 1);
+    }
+  }
+
+  if (has(schema, 'resolve')) {
+    /** "resolve.fastUnsafe" option was only available in webpack 1 */
+    if (has(schema.resolve, 'fastUnsafe')) {
+      version = upgradeVersion(version, 1);
+    }
+
+    if (has(schema.resolve, 'modulesDirectories')
+      || has(schema.resolve, 'modules')
+      || has(schema.resolve, 'root')) {
+      version = upgradeVersion(version, 2);
+    }
+
+    if (has(schema.resolve, 'mainFields')
+      || has(schema.resolve, 'modules')
+      || has(schema.resolve, 'concord')
+      || has(schema.resolve, 'cacheWithContext')) {
+      version = upgradeVersion(version, 3);
+    }
+  }
+
+  /** "resolve.fastUnsafe" option was available until webpack 2 */
+  if (has(schema, 'performance')) {
+    version = upgradeVersion(version, 2);
+  }
+
+  if (has(schema, 'node')) {
+    /** "resolve.fastUnsafe" option was available until webpack 2 */
+    if (has(schema.node, 'Buffer')) {
+      version = upgradeVersion(version, 2);
+    }
+  }
+
+  if (has(schema, 'output')) {
+    if (has(schema.output, 'chunkLoadTimeout')) {
+        version = upgradeVersion(version, 2);
+    }
+
+    if (has(schema.output, 'library')
+      || has(schema.output, 'libraryExport')) {
+        version = upgradeVersion(version, 3);
+    }
+  }
+
+  if (has(schema, 'module')) {
+    /** "module.[loaders|preLoaders|postLoaders]" options were only available in webpack 2 */
+    if (has(schema.module, 'loaders')
+      || has(schema.module, 'preLoaders')
+      || has(schema.module, 'postLoaders')) {
+      version = upgradeVersion(version, 2);
+    }
+    if (has(schema.module, 'rules')) {
+      version = upgradeVersion(version, 3);
+    }
+  }
+
+  if (has(schema, 'mode') || has(schema, 'performance') || has(schema, 'optimization')) {
+    version = upgradeVersion(version, 4);
+  }
 }
