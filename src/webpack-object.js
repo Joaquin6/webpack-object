@@ -1,10 +1,14 @@
+import path from 'path'
+
 import Joi from 'joi'
 import fs from 'fs-extra'
-import path from 'path'
+import buglog from 'buglog'
 import { isArray, isObject } from 'lodash'
 
 import { validateOutputVersion, validateConfigs, validateOptions } from './validator'
 import optionsValidationError from './utils/errors'
+
+const log = buglog('main');
 
 export { default as Joi } from 'Joi'
 
@@ -22,8 +26,11 @@ export const getWebpackOptionsSchema = async (version) => {
 }
 
 export default (version, options) => {
+  log(`Receieved Desired Version: ${version}`);
+
   const outputVersion = validateOutputVersion(version)
   if (!outputVersion) {
+    log('ERROR: webpack version does not exist');
     throw new Error('webpack version does not exist')
   }
 

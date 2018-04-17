@@ -1,5 +1,6 @@
 import Ajv from 'ajv'
 import fs from 'fs-extra'
+import buglog from 'buglog'
 import AjvKeywords from 'ajv-keywords'
 import { has, isArray, isNumber, isString } from 'lodash'
 
@@ -7,6 +8,7 @@ import { validateRoot } from './schemas'
 
 import ajvAbsolutePath from './schemas/ajv.absolutePath'
 
+const log = buglog('validator');
 const ajv = new Ajv({
   errorDataPath: 'configuration',
   allErrors: true,
@@ -18,6 +20,8 @@ ajvAbsolutePath(ajv)
 export const versionValue = (version) => (version > 4 || version < 1 ? false : version)
 
 export const validateOutputVersion = (version) => {
+  log(`Validating Version: ${version}`);
+
   if (isNumber(version)) {
     version = versionValue(version)
   }
@@ -27,6 +31,7 @@ export const validateOutputVersion = (version) => {
   }
 
   if (!version) {
+    log(`Version Validation Failed: ${version}`);
     return false
   }
 
